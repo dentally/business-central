@@ -60,10 +60,15 @@ module BusinessCentral
 
         def send
           request = yield
-          response = Response.new(request.read_body.to_s).results
+          body = request.read_body
+          response = Response.new(body.to_s).results
 
           if Response.success?(request.code.to_i)
-            response
+            if request.header["Content-Type"] == 'application/octet'
+              body
+            else
+              response
+            end
           elsif Response.success_no_content?(request.code.to_i)
             true
           else

@@ -27,9 +27,13 @@ module BusinessCentral
         @results = nil
         return if response.blank?
 
-        @response = JSON.parse(response)
-        @response = @response['value'] if @response.key?('value')
-        process
+        if response[0..3] == "%PDF"
+          @results = response
+        else
+          @response = JSON.parse(response)
+          @response = @response['value'] if @response.key?('value')
+          process
+        end
       end
 
       private
