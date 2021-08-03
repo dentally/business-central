@@ -1,10 +1,11 @@
 # frozen_string_literal: true
+require 'addressable'
 
 module BusinessCentral
   module Object
     module URLHelper
       def encode_url_object(object)
-        URI.encode(object)
+        Addressable::URI.escape(object)
       end
 
       def encode_url_params(query)
