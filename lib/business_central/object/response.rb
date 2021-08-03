@@ -23,14 +23,14 @@ module BusinessCentral
 
       attr_reader :results
 
-      def initialize(response)
+      def initialize(response, data = false)
         @results = nil
-        return if response.blank?
+        return if response.to_s.blank?
 
-        if response[0..3] == "%PDF"
+        if data
           @results = response
         else
-          @response = JSON.parse(response)
+          @response = JSON.parse(response.to_s)
           @response = @response['value'] if @response.key?('value')
           process
         end
