@@ -39,26 +39,26 @@ class BusinessCentral::Object::PdfDocumentTest < Minitest::Test
 
     response = @pdf_document.find_all
     assert_equal response.first[:"content@odata.media_read_link"],
-      'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
+                 'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
   end
 
   def test_find_by_id
     test_id = 'dab1b699-c590-47fe-89f8-8a4901b11d35'
     stub_request(:get, /pdfDocument\(#{test_id}\)/)
-    .to_return(
-      status: 200,
-      body: {
-       'value':
-        {
-          :id => "dab1b699-c590-47fe-89f8-8a4901b11d35",
-          :"content@odata.media_read_link" => "https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content"
-        }
-      }.to_json
-    )
+      .to_return(
+        status: 200,
+        body: {
+          'value':
+           {
+             :id => "dab1b699-c590-47fe-89f8-8a4901b11d35",
+             :"content@odata.media_read_link" => "https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content"
+           }
+        }.to_json
+      )
 
     response = @pdf_document.find_by_id(test_id)
     assert_equal response[:"content@odata.media_read_link"],
-      'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
+                 'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
   end
 
   def test_where
@@ -78,7 +78,7 @@ class BusinessCentral::Object::PdfDocumentTest < Minitest::Test
 
     response = @pdf_document.where(test_filter)
     assert_equal response.first[:"content@odata.media_read_link"],
-      'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
+                 'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
   end
 
   def test_get_pdf
