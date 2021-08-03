@@ -38,7 +38,8 @@ class BusinessCentral::Object::PdfDocumentTest < Minitest::Test
       )
 
     response = @pdf_document.find_all
-    assert_equal response.first[:"content@odata.media_read_link"], 'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
+    assert_equal response.first[:"content@odata.media_read_link"],
+      'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
   end
 
   def test_find_by_id
@@ -56,7 +57,8 @@ class BusinessCentral::Object::PdfDocumentTest < Minitest::Test
     )
 
     response = @pdf_document.find_by_id(test_id)
-    assert_equal response[:"content@odata.media_read_link"], 'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
+    assert_equal response[:"content@odata.media_read_link"],
+      'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
   end
 
   def test_where
@@ -75,6 +77,19 @@ class BusinessCentral::Object::PdfDocumentTest < Minitest::Test
       )
 
     response = @pdf_document.where(test_filter)
-    assert_equal response.first[:"content@odata.media_read_link"], 'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
+    assert_equal response.first[:"content@odata.media_read_link"],
+      'https//www.f.com/companies(123456)/salesInvoices(1)/pdfDocument(1)/content'
+  end
+
+  def test_get_pdf
+    stub_request(:get, /pdfDocument.*\/content/)
+      .to_return(
+        headers: { 'Content-Type' => 'application/octet-stream' },
+        status: 200,
+        body: "%PDF-1.5\r\n4 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox\r\n"
+      )
+
+    response = @pdf_document.get_pdf
+    assert_equal response, "%PDF-1.5\r\n4 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox\r\n"
   end
 end
