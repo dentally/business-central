@@ -60,7 +60,18 @@ module BusinessCentral
 
         def send
           request = yield
-          response = Response.new(request.read_body.to_s).results
+          type = request&.content_type
+
+          # This is a bit hacky. But the business explore gem responds with
+          # application/json for normal response and application/octet-stream for
+          # data responses. This test, though it looks wrong, works fine within the context
+          # of the gem.
+          if type.nil? || type == 'application/json' || type == 'text/plain'
+            data = false
+          else
+            data = true
+          end
+          response = Response.new(request.read_body, data).results
 
           if Response.success?(request.code.to_i)
             response
