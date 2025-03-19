@@ -106,6 +106,23 @@ module BusinessCentral
         )
       end
 
+      def microsoft_nav_post(id)
+        if !method_supported?(:microsoft_nav_post)
+          raise BusinessCentral::NoSupportedMethod.new(:microsoft_nav_post, object_methods)
+        end
+
+        Request.post(
+          @client,
+          build_url(
+            parent_path: @parent_path,
+            child_path: object_name,
+            child_id: id,
+            microsoft_nav: "post"
+          ),
+          {}
+        )
+      end
+
       protected
 
       def valid_parent?(parent)
@@ -114,12 +131,13 @@ module BusinessCentral
         raise InvalidArgumentException, "parents allowed: #{object_parent_name.join(', ')}"
       end
 
-      def build_url(parent_path: [], child_path: '', child_id: '', filter: '')
+      def build_url(parent_path: [], child_path: '', child_id: '', microsoft_nav: '', filter: '')
         URLBuilder.new(
           base_url: client.url,
           parent_path: parent_path,
           child_path: child_path,
           child_id: child_id,
+          microsoft_nav: microsoft_nav,
           filter: filter
         ).build
       end

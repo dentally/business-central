@@ -153,4 +153,12 @@ class BusinessCentral::Object::SalesInvoiceTest < Minitest::Test
                       .sales_invoice_line.find_all
     assert_equal response.first[:description], 'salesInvoiceLine1'
   end
+
+  def test_microsoft_nav_post
+    test_id = '0111245'
+    stub_request(:post, /salesInvoices\(#{test_id}\)\/Microsoft.NAV.post/)
+      .to_return(status: 204)
+
+    assert @sales_invoice.microsoft_nav_post(test_id)
+  end
 end
