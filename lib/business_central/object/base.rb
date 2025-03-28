@@ -123,6 +123,23 @@ module BusinessCentral
         )
       end
 
+      def microsoft_nav_cancel(id)
+        if !method_supported?(:microsoft_nav_cancel)
+          raise BusinessCentral::NoSupportedMethod.new(:microsoft_nav_cancel, object_methods)
+        end
+
+        Request.post(
+          @client,
+          build_url(
+            parent_path: @parent_path,
+            child_path: object_name,
+            child_id: id,
+            microsoft_nav: "cancel"
+          ),
+          {}
+        )
+      end
+
       protected
 
       def valid_parent?(parent)

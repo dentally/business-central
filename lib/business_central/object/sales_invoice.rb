@@ -55,6 +55,7 @@ module BusinessCentral
         patch
         delete
         microsoft_nav_post
+        microsoft_nav_cancel
       ].freeze
 
       navigation :sales_invoice_line
