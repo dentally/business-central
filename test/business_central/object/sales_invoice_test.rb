@@ -161,4 +161,12 @@ class BusinessCentral::Object::SalesInvoiceTest < Minitest::Test
 
     assert @sales_invoice.microsoft_nav_post(test_id)
   end
+
+  def test_microsoft_nav_cancel
+    test_id = '0111245'
+    stub_request(:post, /salesInvoices\(#{test_id}\)\/Microsoft.NAV.cancel/)
+      .to_return(status: 204)
+
+    assert @sales_invoice.microsoft_nav_cancel(test_id)
+  end
 end
